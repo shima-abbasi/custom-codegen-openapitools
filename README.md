@@ -1,51 +1,35 @@
-# Custom OpenAPI Generator with Azure Function Example
+# Maven Project for API and Model Generation from Swagger OAS 3
 
-This project demonstrates a Maven-based Java application using Java 17. It generates API and model classes from a Swagger OpenAPI 3.0 specification using a custom OpenAPI generator. The project also includes an example API running with Azure Functions.
+## Overview
+This project is a Maven-based Java application that generates API and model classes from a Swagger OpenAPI Specification (OAS) 3.0 document. It uses a custom OpenAPI generator built on top of the OpenAPI Tools code generator. The project also includes an example API running on Azure with Quarkus.
 
-## Project Structure
+## Features
+- **Java 17**: Utilizes the latest features and improvements of Java 17.
+- **Maven**: Manages project dependencies and build lifecycle.
+- **Swagger OAS 3**: Generates API and model classes from an OpenAPI Specification 3.0 document.
+- **Custom OpenAPI Generator**: Built on top of OpenAPI Tools code generator for customized code generation.
+- **Quarkus**: Example API implementation running on Azure.
 
-- `pom.xml`: Maven configuration file.
-- `src/main/resources/openapi/user.yaml`: OpenAPI 3.0 specification file.
-- `src/main/java/com/shima/openapitools/codegen/CustomCodegen.java`: Custom OpenAPI generator implementation.
-- `src/main/java/com/shima/openapitools/endpoint/ExampleGetApi.java`: Example Azure Function API endpoint.
+## Getting Started
 
-## Prerequisites
+### Prerequisites
+- **Java 17**: Ensure Java 17 is installed on your machine.
+- **Maven**: Install Maven for managing project dependencies and build lifecycle.
+- **Azure Account**: Required for deploying the example API.
 
-- Java 17
-- Maven
-- Azure Functions Core Tools (for local development and testing)
-
-## Setup
-
-1. **Clone the repository:**
-
+### Installation
+1. **Clone the repository**:
     ```sh
-    git clone https://github.com/shima-abbasi/custom-codegen-openapitools.git
+    git clone https://github.com/shima-abbasi/custom-codegen-openapitools
     cd custom-codegen-openapitools
     ```
 
-2. **Build the project:**
-
+2. **Build and run the project locally**:
     ```sh
     mvn clean install
     ```
 
-3. **Generate API and model classes:**
-
-    ```sh
-    mvn openapi-generator:generate
-    ```
-
-4. **Run the Azure Function locally:**
-
-    ```sh
-    mvn azure-functions:run
-    ```
-
-## Custom OpenAPI Generator
-
-The custom OpenAPI generator is implemented in `CustomCodegen.java`. It extends the `JavaClientCodegen` class from OpenAPI Tools and customizes the output directory, library, and package names.
-
-## Example API
-
-The example API is implemented in `ExampleGetApi.java`. It is an Azure Function that handles a simple GET request and returns a JSON response.
+3. **Generate API and model classes**:
+   ```sh
+   mvn clean package azure-functions:run
+   ```
