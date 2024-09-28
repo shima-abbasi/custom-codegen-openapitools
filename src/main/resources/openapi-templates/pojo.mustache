@@ -1,0 +1,58 @@
+  /**
+   * {{description}}{{^description}}{{classname}}{{/description}}
+   */
+  @Schema(description = "{{description}}")
+  public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+
+    {{#vars}}
+    {{#jackson}}
+    public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+    @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
+    {{/jackson}}
+
+    @Schema(description = "{{description}}", example = "{{example}}", required = {{required}})
+    private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+
+    public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}){
+      this.{{name}} = {{name}};
+      return this;
+    }
+
+    public {{{datatypeWithEnum}}} {{getter}}(){
+      return {{name}};
+    }
+
+    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+      this.{{name}} = {{name}};
+    }
+
+    {{/vars}}
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      {{classname}} that = ({{classname}}) o;
+        return {{#vars}}Objects.equals(this.{{name}}, that.{{name}}){{^-last}} && {{/-last}}{{#-last}};{{/-last}}{{/vars}}
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class {{classname}} {\n");
+          {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+      {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+      {{/vars}}sb.append("}");
+      return sb.toString();
+    }
+
+    private String toIndentedString(Object o) {
+      if (o == null) return "null";
+      return o.toString().replace("\n", "\n    ");
+    }
+}

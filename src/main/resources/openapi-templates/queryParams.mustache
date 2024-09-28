@@ -1,0 +1,2 @@
+{{#isQueryParam}}@Parameter(description = "{{{description}}}"{{#required}}, required=true{{/required}}{{#allowableValues}},
+{{> allowableValues }}{{/allowableValues}}){{#defaultValue}} @DefaultValue("{{{defaultValue}}}"){{/defaultValue}} @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isQueryParam}}

@@ -1,0 +1,44 @@
+package {{package}};
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+@Path("{{^useAnnotatedBasePath}}/{{/useAnnotatedBasePath}}{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}")
+@Tag(name = "{{name}}", description = "{{description}}")
+{{#addConsumesProducesJson}}
+{{/addConsumesProducesJson}}
+{{#operations}}
+  public interface {{classname}} {
+  {{#operation}}
+    @{{httpMethod}}{{#path}}
+    @Path("{{{path}}}"){{/path}}
+      {{#hasConsumes}}
+      @Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} })
+      {{/hasConsumes}}
+      {{#hasProduces}}
+      @Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} })
+      {{/hasProduces}}
+    @Operation(summary = "{{{summary}}}", tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
+    @ApiResponses(value = {
+      {{#responses}}
+      @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}", content = @Content(mediaType = "application/json", schema = @Schema(implementation = {{#baseType}}{{{baseType}}}.class{{/baseType}}{{^baseType}}Void.class{{/baseType}}))){{^last}}, {{/last}}{{/responses}}})
+    Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#-last}}{{/-last}}{{^-last}},{{/-last}}{{/allParams}});
+  {{/operation}}
+  }
+{{/operations}}

@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Simple API
+  description: A simple example API for demonstrating Swagger file generation.
+  version: 1.0.0
+servers:
+  - url: /api
+tags:
+  - name: User
+    description: Operations related to users
+
+paths:
+  /users:
+    get:
+      tags:
+        - User
+      summary: Get list of users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Internal Server Error
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of users to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: Offset for pagination
+          required: false
+          schema:
+            type: integer
+            format: int32
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          description: The email of the user
+      required:
+        - id
+        - name
